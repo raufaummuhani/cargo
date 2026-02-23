@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(BidangPelayananKesehatanMasyarakatSeeder::class);
         $this->call(BidangPencegahanPenyakitMenularSeeder::class);
-
+        $this->call(SuperAdminSeeder::class);
+        $this->call(UserRoleSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

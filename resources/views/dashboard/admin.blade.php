@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
   <div class="section-header">
-    <h1>Dashboard Monitoring Cargo</h1>
+    <h1>Dashboard Monitoring Cargo Super Admin</h1>
   </div>
 
   {{-- SUMMARY CARD --}}
@@ -42,11 +42,35 @@
       <div class="card card-statistic-1">
         <div class="card-icon bg-success"><i class="fas fa-check"></i></div>
         <div class="card-wrap">
+          <div class="card-header"><h4>Transit</h4></div>
+          <div class="card-body">{{ $transit }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <div class="row">
+    <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+      <div class="card card-statistic-1">
+        <div class="card-icon bg-success"><i class="fas fa-check-circle"></i></div>
+        <div class="card-wrap">
           <div class="card-header"><h4>Sampai</h4></div>
           <div class="card-body">{{ $sampai }}</div>
         </div>
       </div>
     </div>
+
+    <div class="col-lg-3 col-md-7 col-sm-7 col-12">
+      <div class="card card-statistic-1">
+        <div class="card-icon bg-danger"><i class="fas fa-dollar"></i></div>
+        <div class="card-wrap">
+          <div class="card-header"><h4>Total Pendapatan</h4></div>
+          <div class="card-body" style="font-size: 16px;">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 
   {{-- GRAFIK --}}
@@ -88,8 +112,25 @@
                 <th>Lokasi Terakhir</th>
                 <th>Update</th>
               </tr>
-            </thead>
-
+            </thead> <tbody>
+            @forelse($cargostotal as $it)
+            <tr>
+  <td>{{ $it->id }}</td>
+                <td>{{ $it->no_resi }}</td>
+              
+                <td>{{ $it->penerima }}</td>
+     
+                <td>{{ $it->lastTracking->status ?? '-' }}</td>
+                 <td>{{ $it->lastTracking->lokasi ?? '-' }}</td>
+                               <td>{{ $it->lastTracking->updated_at ?? '-' }}</td>
+                
+</tr>
+            @empty
+            <tr>
+                <td colspan="6" class="text-center">Tidak ada data cargo.</td>
+            </tr>
+            @endforelse
+          </tbody>
           </table>
         </div>
       </div>

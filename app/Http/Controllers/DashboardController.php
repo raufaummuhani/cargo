@@ -9,108 +9,125 @@ use App\Models\Sekretariat;
 use App\Models\BidangSumberDayaKesehatanMasyarakat;
 use App\Http\Controllers\BidangPelayananKesehatanMasyarakatController;
 use App\Models\BidangPencegahanPenyakitMenular;
+use App\Models\Cargo;
+use Carbon\Carbon;
+
 class DashboardController extends Controller
 {
     
-    public function index()
-    {
-       // ====== BIDANG KESEHATAN MASYARAKAT ======
-        $kesehatan = BidangKesehatan::orderBy('id')->get();
-        $kesehatan_labels = $kesehatan->pluck('month');
-        $kematian_ibu = $kesehatan->pluck('angka_kematian_ibu_per_100000');
-        $kematian_bayi = $kesehatan->pluck('angka_kematian_bayi_per_1000');
-        $stunting = $kesehatan->pluck('prevalensi_stunting');
-        $asi = $kesehatan->pluck('cakupan_asi_eksklusif');
+public function index()
+{
+     
+    $user = auth()->user();
 
-        // ====== BIDANG PELAYANAN ======
-        $pelayanan = BidangPelayananKesehatanMasyarakat::orderBy('id')->get();
-        $pelayanan_labels = $pelayanan->pluck('month');
-        $faskes = $pelayanan->pluck('persentase_fasyankes_terakreditasi');
-        $rs = $pelayanan->pluck('jumlah_rs_terakreditasi');
-        $puskesmas = $pelayanan->pluck('jumlah_puskesmas_terakreditasi_madya');
 
-        // ====== BIDANG PENCEGAHAN PENYAKIT MENULAR ======
-        $pencegahan = BidangPencegahanPenyakitMenular::orderBy('id')->get();
-        $pencegahan_labels = $pencegahan->pluck('month');
-        $klb = $pencegahan->pluck('persentase_pelayanan_klb');
-        $tb = $pencegahan->pluck('temuan_kasus_tb');
-        $imunisasi = $pencegahan->pluck('persentase_imunisasi_dasar');
-        $rokok = $pencegahan->pluck('pengendalian_merokok_usia_10_18');
-        $krisis = $pencegahan->pluck('persentase_penanganan_krisis');
+$query = Cargo::query();
 
-                // ====== BIDANG SUMBER DAYA======
 
-        $sumber_daya = BidangSumberDayaKesehatanMasyarakat::orderBy('id')->get();
-        $sumberdaya_labels = $sumber_daya->pluck('month');
-        $rdp = $sumber_daya->pluck('indeks_rasio_dokter_dengan_penduduk');
-        $rnp = $sumber_daya->pluck('indeks_rasio_dokter_spesialis_dengan_penduduk');
 
-          // ====== BIDANG SEKRET======
+    $total   = (clone $query)->count();
+    $pending = (clone $query)->where('status', 'pending')->count();
+    $proses  = (clone $query)->where('status', 'proses')->count();
+    $transit = (clone $query)->where('status', 'transit')->count();
+    $sampai  = (clone $query)->where('status', 'sampai')->count();
+        $totalPendapatan = Cargo::where('status', 'sampai')
+                          ->sum('total');
 
-        $sekret = Sekretariat::orderBy('id')->get();
-        $sekret_labels = $sekret->pluck('month');
-        $skr = $sekret->pluck('nilai_sakip');
+     $mitratotal   = (clone $query)->where('mitra_id', $user->id)->count();
+    $mitrapending = (clone $query)->where('status', 'pending')->where('mitra_id', $user->id)->count();
+    $mitraproses  = (clone $query)->where('status', 'proses')->where('mitra_id', $user->id)->count();
+    $mitratransit = (clone $query)->where('status', 'transit')->where('mitra_id', $user->id)->count();
+    $mitrasampai  = (clone $query)->where('status', 'sampai')->where('mitra_id', $user->id)->count();
+    $totalPendapatanMitra = (clone $query)->where('status', 'sampai')->where('mitra_id', $user->id)->sum('total');
+                      
 
-        return view('dashboard', compact(
-            // kesehatan
-            'kesehatan_labels', 'kematian_ibu', 'kematian_bayi', 'stunting', 'asi',
-            // pelayanan
-            'pelayanan_labels', 'faskes', 'rs', 'puskesmas',
-            // pencegahan
-            'pencegahan_labels', 'klb', 'tb', 'imunisasi', 'rokok', 'krisis',
-                        'sumberdaya_labels', 'rdp', 'rnp',
-                        'sekret_labels', 'skr'
-        ));
-    }
-     public function index2()
-    {
-       // ====== BIDANG KESEHATAN MASYARAKAT ======
-        $kesehatan = BidangKesehatan::orderBy('id')->get();
-        $kesehatan_labels = $kesehatan->pluck('month');
-        $kematian_ibu = $kesehatan->pluck('angka_kematian_ibu_per_100000');
-        $kematian_bayi = $kesehatan->pluck('angka_kematian_bayi_per_1000');
-        $stunting = $kesehatan->pluck('prevalensi_stunting');
-        $asi = $kesehatan->pluck('cakupan_asi_eksklusif');
+     $drivetotal   = (clone $query)->where('driver_id', $user->id)->count();
+    $driverpending = (clone $query)->where('status', 'pending')->where('driver_id', $user->id)->count();
+    $driverproses  = (clone $query)->where('status', 'proses')->where('driver_id', $user->id)->count();
+    $drivertransit = (clone $query)->where('status', 'transit')->where('driver_id', $user->id)->count();
+    $driversampai  = (clone $query)->where('status', 'sampai')->where('driver_id', $user->id)->count();
+    $totalPendapatanDriver = (clone $query)->where('status', 'sampai')->where('driver_id', $user->id)->sum('total');
 
-        // ====== BIDANG PELAYANAN ======
-        $pelayanan = BidangPelayananKesehatanMasyarakat::orderBy('id')->get();
-        $pelayanan_labels = $pelayanan->pluck('month');
-        $faskes = $pelayanan->pluck('persentase_fasyankes_terakreditasi');
-        $rs = $pelayanan->pluck('jumlah_rs_terakreditasi');
-        $puskesmas = $pelayanan->pluck('jumlah_puskesmas_terakreditasi_madya');
+  $monthly = (clone $query)
+        ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
+        ->whereYear('created_at', date('Y'))
+        ->groupBy('bulan')
+        ->pluck('total', 'bulan');
 
-        // ====== BIDANG PENCEGAHAN PENYAKIT MENULAR ======
-        $pencegahan = BidangPencegahanPenyakitMenular::orderBy('id')->get();
-        $pencegahan_labels = $pencegahan->pluck('month');
-        $klb = $pencegahan->pluck('persentase_pelayanan_klb');
-        $tb = $pencegahan->pluck('temuan_kasus_tb');
-        $imunisasi = $pencegahan->pluck('persentase_imunisasi_dasar');
-        $rokok = $pencegahan->pluck('pengendalian_merokok_usia_10_18');
-        $krisis = $pencegahan->pluck('persentase_penanganan_krisis');
+    $bulanLabels = [];
+    $bulanData   = [];
 
-                // ====== BIDANG SUMBER DAYA======
-
-        $sumber_daya = BidangSumberDayaKesehatanMasyarakat::orderBy('id')->get();
-        $sumberdaya_labels = $sumber_daya->pluck('month');
-        $rdp = $sumber_daya->pluck('indeks_rasio_dokter_dengan_penduduk');
-        $rnp = $sumber_daya->pluck('indeks_rasio_dokter_spesialis_dengan_penduduk');
-
-          // ====== BIDANG SEKRET======
-
-        $sekret = Sekretariat::orderBy('id')->get();
-        $sekret_labels = $sekret->pluck('month');
-        $skr = $sekret->pluck('nilai_sakip');
-
-        return view('welcome', compact(
-            // kesehatan
-            'kesehatan_labels', 'kematian_ibu', 'kematian_bayi', 'stunting', 'asi',
-            // pelayanan
-            'pelayanan_labels', 'faskes', 'rs', 'puskesmas',
-            // pencegahan
-            'pencegahan_labels', 'klb', 'tb', 'imunisasi', 'rokok', 'krisis',
-                        'sumberdaya_labels', 'rdp', 'rnp',
-                        'sekret_labels', 'skr'
-        ));
+    for ($i = 1; $i <= 12; $i++) {
+        $bulanLabels[] = Carbon::create()->month($i)->format('M');
+        $bulanData[]   = $monthly[$i] ?? 0;
     }
 
+    // TABEL
+    $cargos = Cargo::with('lastTracking')->where('mitra_id', $user->id)->latest()->limit(10)->get();
+    
+    $cargosdriver = Cargo::with('lastTracking')->where('driver_id', $user->id)->latest()->limit(10)->get();
+      $cargostotal = Cargo::with('lastTracking')->latest()->limit(10)->get();
+
+    // SUPER ADMIN
+        if ($user->hasRole('super-admin')) {
+               return view('dashboard.super_admin', compact(
+        'total',
+        'pending',
+        'proses',
+        'transit',
+        'sampai',
+        'totalPendapatan',
+        'bulanLabels',
+        'bulanData',
+        'cargostotal'
+    ));
+        }
+
+        // ADMIN
+        if ($user->hasRole('admin')) {
+ return view('dashboard.admin', compact(
+        'total',
+        'pending',
+        'proses',
+        'transit',
+        'sampai',
+        'totalPendapatan',
+        'bulanLabels',
+        'bulanData',
+        'cargostotal'
+    ));
+        }
+
+        // MITRA
+        if ($user->hasRole('mitra')) {
+            return view('dashboard.mitra', compact(
+                'mitratotal',
+                'mitrapending',
+                'mitraproses',
+                'mitratransit',
+                'mitrasampai',
+                'totalPendapatanMitra',
+                'cargos',
+       
+                
+            ));
+        }
+
+        // DRIVER
+        if ($user->hasRole('driver')) {
+            return view('dashboard.driver', compact(
+               'drivetotal',
+                'driverpending',
+                'driverproses',
+                'drivertransit',
+                'driversampai',
+                'totalPendapatanDriver',
+                'cargosdriver',
+       
+                
+            ));
+        }
+
+
+    }
 }

@@ -32,15 +32,7 @@
             </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Daftar Sebagai</label>
-            <select name="role" class="form-select" required>
-              <option value="">-- Pilih Role --</option>
-              <option value="user" {{ old('role')=='user' ? 'selected' : '' }}>User</option>
-              <option value="admin" {{ old('role')=='admin' ? 'selected' : '' }}>Admin</option>
-            </select>
-         
-          </div>
+        
 
           <div class="d-grid gap-2">
             <button class="btn btn-primary">Daftar Sekarang</button>

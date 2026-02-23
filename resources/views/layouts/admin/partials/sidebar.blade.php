@@ -1,26 +1,67 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-           <b> KPI Dinkes</b>
+           <b> Aplikasi Monitoring Cargo</b>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">St</a>
         </div>
-        <ul class="sidebar-menu">
+  @role('super-admin')
+                    <ul class="sidebar-menu">
                 <li class="menu-header"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
            
             <li class="menu-header" >Master Data</li>
-                       <li class="active"><a class="nav-link" href="{{ route('bidang_kesehatan.index') }}"><i class="far fa-square"></i>
-                    <span>Bidang Kesehatan Masyarakat</span></a></li>
-                       <li class="active"><a class="nav-link" href="{{ route('bidang_pelayanan_kesehatan.index') }}"><i class="far fa-square"></i>
-                    <span>Bidang Pelayanan Kesehatan</span></a></li>
-                          <li class="active"><a class="nav-link" href="{{ route('bidang_pencegahan.index') }}"><i class="far fa-square"></i>
-                    <span>Bidang Pencegahan Penyakit Menular</span></a></li>
-                   <li class="active"><a class="nav-link" href="{{ route('sumber_daya.index') }}"><i class="far fa-square"></i>
-                    <span>Bidang Sumber Daya Kesehatan</span></a></li>
-                                       <li class="active"><a class="nav-link" href="{{ route('sekretariat.index') }}"><i class="far fa-square"></i>
-                    <span>Sekretariat</span></a></li>
+                       <li class="active"><a class="nav-link" href="{{ route('cargo.index') }}"><i class="far fa-square"></i>
+                    <span>Cargo</span></a></li>
+                      
+                          <li class="active"><a class="nav-link" href="{{ route('driver.index') }}"><i class="far fa-square"></i>
+                    <span>Driver</span></a></li>
+                   <li class="active"><a class="nav-link" href="{{ route('vehicle.index') }}"><i class="far fa-square"></i>
+                    <span>Vehicle</span></a></li>
+                     <li class="active"><a class="nav-link" href="{{ route('mitra.index') }}"><i class="far fa-square"></i>
+                    <span>Mitra</span></a></li>                                        
+                    <li class="menu-header"><a class="nav-link" href="{{ route('user.index') }}">Admin</a></li>
+   
+          
+            @endrole
+            @role('admin')
+                    <ul class="sidebar-menu">
+                <li class="menu-header"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+           
+            <li class="menu-header" >Master Data</li>
+                       <li class="active"><a class="nav-link" href="{{ route('cargo.index') }}"><i class="far fa-square"></i>
+                    <span>Cargo</span></a></li>
+                      
+                          <li class="active"><a class="nav-link" href="{{ route('driver.index') }}"><i class="far fa-square"></i>
+                    <span>Driver</span></a></li>
+                   <li class="active"><a class="nav-link" href="{{ route('vehicle.index') }}"><i class="far fa-square"></i>
+                    <span>Vehicle</span></a></li>
+                                 <li class="active"><a class="nav-link" href="{{ route('mitra.index') }}"><i class="far fa-square"></i>
+                    <span>Mitra</span></a></li>
+    
      <li class="menu-header"><a class="nav-link" href="{{ route('user.index') }}">Admin</a></li>
+   
+          
+            @endrole
+             @role('mitra')
+               <ul class="sidebar-menu">
+                <li class="menu-header"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+           
+            <li class="menu-header" >Master Data</li>
+                       <li class="active"><a class="nav-link" href="{{ route('mitra.cargo.index') }}"><i class="far fa-square"></i>
+                    <span>Cargo</span></a></li>
+                          <li class="active"><a class="nav-link" href="{{ route('driver.index') }}"><i class="far fa-square"></i>
+                    <span>Driver</span></a></li>
+            @endrole
+             @role('driver')
+               <ul class="sidebar-menu">
+                <li class="menu-header"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+           
+            <li class="menu-header" >Master Data</li>
+                       <li class="active"><a class="nav-link" href="{{ route('cargo.index') }}"><i class="far fa-square"></i>
+                    <span>Cargo</span></a></li>
+            @endrole
+                
         </ul>
 
     </aside>

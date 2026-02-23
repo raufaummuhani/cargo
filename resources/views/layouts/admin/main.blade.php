@@ -63,7 +63,7 @@
             <div class="main-content">
                 <section class="section">
                     <div class="section-header">
-                        <h1>Aplikasi KPI Dinas Kesehatan Provinsi Maluku</h1>
+                        <h1>Aplikasi Monitoring Cargo</h1>
                     </div>
 
                     <div class="section-body">
