@@ -54,12 +54,31 @@ Route::middleware(['auth','role:mitra'])->prefix('mitra')->group(function () {
 
     Route::get('/cargo', [CargoController::class, 'index'])
         ->name('mitra.cargo.index');
-
+        
+    
+            Route::get('/cargo/edit', [CargoController::class, 'edit'])
+        ->name('mitra.cargo.edit');
+    Route::get('/cargo/create', [CargoController::class, 'create'])
+        ->name('mitra.cargo.create');
+            Route::get('/cargo/edit', [CargoController::class, 'edit'])
+        ->name('mitra.cargo.edit');
+    Route::get('/cargo/create', [CargoController::class, 'create'])
+        ->name('mitra.cargo.create');
+            Route::put('/cargo/{cargo}/update', [CargoController::class, 'update'])
+        ->name('mitra.cargo.update');
     Route::get('/cargo/{cargo}', [CargoController::class, 'show'])
         ->name('mitra.cargo.show');
          Route::get('/surat-jalan/{cargo}', [CargoController::class, 'show'])
     ->name('surat-jalan.show');
           Route::resource('driver', DriverController::class);
+
+          
+Route::get('cargo/tracking/{cargoTracking}/edit', [CargoTrackingController::class,'edit'])->name('mitra.cargo_tracking.edit');
+Route::put('cargo/tracking/{cargoTracking}', [CargoTrackingController::class,'update'])->name('mitra.cargo_tracking.update');
+Route::delete('cargo/tracking/{cargoTracking}', [CargoTrackingController::class,'destroy'])->name('mitra.cargo_tracking.destroy');
+Route::get('/cargo/{cargo}/tracking', [CargoTrackingController::class, 'index'])->name('mitra.cargo_tracking.index');
+Route::get('cargo/{cargo}/tracking/create', [CargoTrackingController::class,'create'])->name('mitra.cargo_tracking.create');
+Route::post('cargo/tracking', [CargoTrackingController::class,'store'])->name('mitra.cargo_tracking.store');
 
 });
   Route::middleware('auth','role:super-admin|admin|mitra')->group(function () {

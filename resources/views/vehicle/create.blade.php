@@ -9,6 +9,16 @@
     </div>
 
     <div class="card-body">
+
+        {{-- ERROR VALIDATION --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
+
         <form action="{{ route('vehicle.store') }}" method="POST">
             @csrf
 
@@ -24,7 +34,7 @@
 
             <div class="mb-3">
                 <label>Jenis</label>
-                <input type="text" name="jenis" class="form-control" placeholder="Truck / Pickup" required>
+                <input type="text" name="jenis" class="form-control" required>
             </div>
 
             <div class="mb-3">
@@ -43,15 +53,15 @@
             </div>
 
             <div class="form-group">
-        <label>Status</label>
-        <select name="status" class="form-control">
-            <option value="available" >Available</option>
-            <option value="unavailable">Unavailable</option>
-        </select>
-    </div>
+                <label>Status</label>
+                <select name="status" class="form-control" required>
+                    <option value="">-- Pilih Status --</option>
+                    <option value="available">Available</option>
+                    <option value="unavailable">Unavailable</option>
+                </select>
+            </div>
 
-
-            <button class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('vehicle.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>

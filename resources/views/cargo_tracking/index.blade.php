@@ -10,10 +10,18 @@
             </h4>
             <br>
             <br>
-             <a href="{{ route('cargo_tracking.create', $cargo->id) }}"
+            @role('mitra')
+             <a href="{{ route('mitra.cargo_tracking.create', $cargo->id) }}"
        class="btn btn-primary">
         ➕ Tambah Tracking
     </a>
+    @endrole
+    @role('admin')
+     <a href="{{ route('cargo_tracking.create', $cargo->id) }}"
+       class="btn btn-primary">
+        ➕ Tambah Tracking
+    </a>
+    @endrole
         </div>
     </div>
 
@@ -59,7 +67,7 @@
                             <td>{{ $t->lng }}</td>
                             <td>{{ $t->keterangan }}</td>
                             <td>{{ $t->created_at }}</td>
-                                    <td>
+                                    <td>@role('super-admin')
                     <a href="{{ route('cargo_tracking.edit', $t->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
                     <form action="{{ route('cargo_tracking.destroy', $t->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
@@ -67,6 +75,34 @@
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm">Hapus</button>
                     </form>
+@endrole
+              <td>@role('admin')
+                    <a href="{{ route('cargo_tracking.edit', $t->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                    <form action="{{ route('cargo_tracking.destroy', $t->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+@endrole
+              <td>@role('driver')
+                    <a href="{{ route('cargo_tracking.edit', $t->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                    <form action="{{ route('cargo_tracking.destroy', $t->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+@endrole
+@role('mitra')
+                    <a href="{{ route('mitra.cargo_tracking.edit', $t->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                    <form action="{{ route('mitra.cargo_tracking.destroy', $t->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+@endrole
                 </td>
                         </tr>
                         @endforeach

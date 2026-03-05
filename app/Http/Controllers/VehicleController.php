@@ -1,13 +1,17 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Vehicle;
+use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
     public function index()
     {
-        $vehicles = Vehicle::latest()->paginate();
-        return view('vehicle.index', compact('vehicles'));
+        $vehicle = Vehicle::paginate(100);
+
+        return view('vehicle.index', compact('vehicle'));
     }
 
     public function create()
@@ -18,43 +22,61 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'nomor_polisi' => 'required|unique:vehicles',
-            'jenis' => 'required',
-            'merk' => 'required',
-            'warna' => 'required',
-            'kapasitas_kg' => 'required|integer',
-            'status' => 'required'
+            'name' => 'required|string|max:255',
+            'nomor_polisi' => 'required|string|max:255',
+            'jenis' => 'required|string|max:255',
+            'merk' => 'nullable|string|max:255',
+            'warna' => 'nullable|string|max:255',
+            'kapasitas_kg' => 'nullable|numeric',
+            'status' => 'nullable|string',
         ]);
 
-        Vehicle::create($request->all());
-        return redirect()->route('vehicle.index')->with('success', 'Vehicle berhasil ditambahkan');
+        Vehicle::create([
+            'name' => $request->name,
+            'nomor_polisi' => $request->nomor_polisi,
+            'jenis' => $request->jenis,
+            'merk' => $request->merk,
+            'warna' => $request->warna,
+            'kapasitas_kg' => $request->kapasitas_kg,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('vehicle.index');
     }
 
-    public function edit(Vehicle $vehicle)
+    public function show($id)
     {
+        $vehicle = Vehicle::findOrFail($id);
+
+        return view('vehicle.show', compact('vehicle'));
+    }
+
+    public function edit($id)
+    {
+        $vehicle = Vehicle::findOrFail($id);
+
         return view('vehicle.edit', compact('vehicle'));
     }
 
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'nomor_polisi' => 'required|unique:vehicles,nomor_polisi,' . $vehicle->id,
-            'jenis' => 'required',
-            'merk' => 'required',
-            'warna' => 'required',
-            'kapasitas_kg' => 'required|integer',
-            'status' => 'required'
+            'name' => 'required|string|max:255',
+            'plate_number' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
         ]);
 
+        $vehicle = Vehicle::findOrFail($id);
         $vehicle->update($request->all());
-        return redirect()->route('vehicle.index')->with('success', 'Vehicle berhasil diupdate');
+
+        return redirect()->route('vehicle.index');
     }
 
-    public function destroy(Vehicle $vehicle)
+    public function destroy($id)
     {
+        $vehicle = Vehicle::findOrFail($id);
         $vehicle->delete();
-        return back()->with('success', 'Vehicle berhasil dihapus');
+
+        return redirect()->route('vehicle.index');
     }
 }

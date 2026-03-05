@@ -61,7 +61,7 @@
 
 
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('bidang_pelayanan_kesehatan.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('cargo_tracking.index', $item->cargo_id) }}" class="btn btn-secondary">Kembali</a>
     </form>
 
 <div id="map" style="height:450px"></div>

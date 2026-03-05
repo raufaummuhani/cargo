@@ -8,7 +8,7 @@
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
-    @endif<a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3">Tambah Vehicle</a>
+    @endif<a href="{{ route('vehicle.create') }}" class="mb-3 btn btn-primary">Tambah Vehicle</a>
 <div class="table-responsive" style="max-height:400px; overflow-y:auto">
 <table class="table table-bordered">
     <tr>
@@ -21,7 +21,7 @@
         <th>Status</th>
         <th>Aksi</th>
     </tr>
-    @foreach ($vehicles as $v)
+    @foreach ($vehicle as $v)
     <tr>
           <td>{{ $loop->iteration }}</td>
         <td>{{ $v->name }}</td>
@@ -41,7 +41,7 @@
     </tr>
     @endforeach
 </table>
-{{ $vehicles->links() }}
+{{ $vehicle->links() }}
 
 </div>
 </div>

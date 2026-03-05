@@ -14,8 +14,8 @@
 <body>
 <div class="container d-flex align-items-center justify-content-center" style="min-height:100vh">
   <div class="col-md-6 col-lg-5">
-    <div class="card shadow-sm">
-      <div class="card-body p-4">
+    <div class="shadow-sm card">
+      <div class="p-4 card-body">
         <h4 class="mb-3">REGISTER</h4>
 
         @if ($errors->any())
@@ -55,25 +55,26 @@
           <div class="mb-3">
             <label class="form-label">Daftar Sebagai</label>
             <select name="role" class="form-select" required>
-              <option value="">-- Pilih Role --</option>
-              <option value="user" {{ old('role')=='user' ? 'selected' : '' }}>User</option>
-              <option value="admin" {{ old('role')=='admin' ? 'selected' : '' }}>Admin</option>
+                <option value="">-- Pilih Role --</option>
+                <option value="admin" {{ old('role')=='admin' ? 'selected' : '' }}>Admin</option>
+                <option value="mitra" {{ old('role')=='mitra' ? 'selected' : '' }}>Mitra</option>
+                <option value="driver" {{ old('role')=='driver' ? 'selected' : '' }}>Driver</option>
+                <option value="super-admin" {{ old('role')=='super-admin' ? 'selected' : '' }}>Super Admin</option>
             </select>
-         
           </div>
 
-          <div class="d-grid gap-2">
+          <div class="gap-2 d-grid">
             <button class="btn btn-primary">Daftar Sekarang</button>
             <a href="{{ route('login') }}" class="btn btn-outline-secondary">Batal</a>
           </div>
         </form>
       </div>
 
-      <div class="card-footer text-center small text-muted">
+      <div class="text-center card-footer small text-muted">
         Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
       </div>
     </div>
-    <p class="text-center mt-3 small text-muted">© {{ date('Y') }} Instansi Anda</p>
+    <p class="mt-3 text-center small text-muted">© {{ date('Y') }} Instansi Anda</p>
   </div>
 </div>
 </body>
