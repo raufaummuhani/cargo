@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Mitra;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 class MitraController extends Controller
 {
+    // =========================================================
+    // ADMIN — CRUD
+    // =========================================================
+
     /**
-     * Tampilkan semua data mitra
+     * Tampilkan semua data mitra (admin)
      */
     public function index()
     {
@@ -18,7 +22,7 @@ class MitraController extends Controller
     }
 
     /**
-     * Form tambah mitra
+     * Form tambah mitra (admin)
      */
     public function create()
     {
@@ -27,19 +31,26 @@ class MitraController extends Controller
     }
 
     /**
-     * Simpan data mitra
+     * Simpan mitra baru dari form admin
      */
     public function store(Request $request)
     {
         $request->validate([
-            'nama_mitra' => 'required|string|max:255',
-            'user_id'    => 'required|exists:users,id',
+            'nama_mitra'        => 'required|string|max:255',
+            'user_id'           => 'required|exists:users,id',
+            'nama_pic'          => 'nullable|string|max:150',
+            'email'             => 'nullable|email|max:150',
+            'whatsapp'          => 'nullable|string|max:20',
+            'jenis_bisnis'      => 'nullable|string|max:100',
+            'volume_pengiriman' => 'nullable|string|max:100',
+            'alamat'            => 'nullable|string',
+            'status'            => 'nullable|string|max:50',
         ]);
 
-        Mitra::create([
-            'nama_mitra' => $request->nama_mitra,
-            'user_id'    => $request->user_id,
-        ]);
+        Mitra::create($request->only([
+            'nama_mitra', 'user_id', 'nama_pic', 'email',
+            'whatsapp', 'jenis_bisnis', 'volume_pengiriman', 'alamat', 'status',
+        ]));
 
         return redirect()
             ->route('mitra.index')
@@ -47,7 +58,7 @@ class MitraController extends Controller
     }
 
     /**
-     * Form edit mitra
+     * Form edit mitra (admin)
      */
     public function edit(Mitra $mitra)
     {
@@ -56,19 +67,26 @@ class MitraController extends Controller
     }
 
     /**
-     * Update data mitra
+     * Update data mitra (admin)
      */
     public function update(Request $request, Mitra $mitra)
     {
         $request->validate([
-            'nama_mitra' => 'required|string|max:255',
-            'user_id'    => 'required|exists:users,id',
+            'nama_mitra'        => 'required|string|max:255',
+            'user_id'           => 'required|exists:users,id',
+            'nama_pic'          => 'nullable|string|max:150',
+            'email'             => 'nullable|email|max:150',
+            'whatsapp'          => 'nullable|string|max:20',
+            'jenis_bisnis'      => 'nullable|string|max:100',
+            'volume_pengiriman' => 'nullable|string|max:100',
+            'alamat'            => 'nullable|string',
+            'status'            => 'nullable|string|max:50',
         ]);
 
-        $mitra->update([
-            'nama_mitra' => $request->nama_mitra,
-            'user_id'    => $request->user_id,
-        ]);
+        $mitra->update($request->only([
+            'nama_mitra', 'user_id', 'nama_pic', 'email',
+            'whatsapp', 'jenis_bisnis', 'volume_pengiriman', 'alamat', 'status',
+        ]));
 
         return redirect()
             ->route('mitra.index')
@@ -76,7 +94,7 @@ class MitraController extends Controller
     }
 
     /**
-     * Hapus data mitra
+     * Hapus data mitra (admin)
      */
     public function destroy(Mitra $mitra)
     {
@@ -85,5 +103,45 @@ class MitraController extends Controller
         return redirect()
             ->route('mitra.index')
             ->with('success', 'Mitra berhasil dihapus');
+    }
+
+    // =========================================================
+    // PUBLIK — Halaman & Form Kemitraan
+    // =========================================================
+
+    /**
+     * Tampilkan halaman form kemitraan publik
+     */
+    public function kemitraanPage()
+    {
+        return view('kemitraan');
+    }
+
+    /**
+     * Terima pengajuan dari form publik, simpan ke tabel mitras
+     * user_id dikosongkan dulu (null) — admin bisa assign nanti
+     */
+    public function kemitraanStore(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_mitra'        => 'required|string|max:255',
+            'nama_pic'          => 'required|string|max:150',
+            'email'             => 'required|email|max:150',
+            'whatsapp'          => 'required|string|max:20',
+            'jenis_bisnis'      => 'required|string|max:100',
+            'volume_pengiriman' => 'required|string|max:100',
+            'alamat'            => 'required|string',
+        ]);
+
+        // user_id null dulu, status default 'Diproses'
+        Mitra::create(array_merge($validated, [
+            'user_id' => null,
+            'status'  => 'Diproses',
+        ]));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pengajuan kemitraan berhasil dikirim!',
+        ]);
     }
 }

@@ -54,8 +54,6 @@ Route::middleware(['auth','role:mitra'])->prefix('mitra')->group(function () {
 
     Route::get('/cargo', [CargoController::class, 'index'])
         ->name('mitra.cargo.index');
-        
-    
             Route::get('/cargo/edit', [CargoController::class, 'edit'])
         ->name('mitra.cargo.edit');
     Route::get('/cargo/create', [CargoController::class, 'create'])
@@ -84,9 +82,9 @@ Route::post('cargo/tracking', [CargoTrackingController::class,'store'])->name('m
   Route::middleware('auth','role:super-admin|admin|mitra')->group(function () {
  
     Route::get('/cargo', [CargoController::class, 'index'])->name('cargo.index');
-   
-
-Route::resource('mitra', MitraController::class);
+    
+Route::get('/kemitraan', [MitraController::class, 'kemitraanPage']);
+Route::post('/kemitraan', [MitraController::class, 'kemitraanStore']);
 
 Route::resource('cargo', CargoController::class);
   // Route::get('/cargo', [CargoController::class, 'index'])->name('cargo.index');
@@ -137,6 +135,9 @@ Route::get('user', [UserController::class, 'index'])->name('user.index');
         Route::get('cargo/tracking/{cargoTracking}/edit', [CargoTrackingController::class,'edit'])->name('cargo_tracking.edit');
         Route::put('cargo/tracking/{cargoTracking}', [CargoTrackingController::class,'update'])->name('cargo_tracking.update');
     });
-
+    
+Route::view('/b2b', 'join.b2b');
+Route::view('/kemitraan', 'join.kemitraan');
+Route::view('/cek-kemitraan', 'join.cek_kemitraan');
 
 require __DIR__.'/auth.php';
