@@ -39,6 +39,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/', function () {
     return view('welcome');
 });
+Route::post('/tracking', [CargoController::class,'cek'])->name('tracking.cek');
 Route::get('/cek-role', function () {
     return auth()->user()->getRoleNames();
 })->middleware('auth');

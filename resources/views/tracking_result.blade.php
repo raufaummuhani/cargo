@@ -189,42 +189,90 @@
 
   <div class="container" data-aos="fade-up">
 
-    <div class="section-title">
-      <h2>Lacak Pengiriman</h2>
-      <p>Masukkan nomor resi untuk mengetahui status pengiriman barang Anda</p>
-    </div>
+    
 
-    <div class="row justify-content-center">
+<div class="container py-5">
 
-      <div class="col-lg-6">
+@if($shipment)
 
-        <div class="tracking-box">
-<form action="{{ route('tracking.cek') }}" method="POST">
-@csrf
-          <div class="input-group">
+<div class="card shadow mb-4">
 
-            <input 
-              type="text" 
-              id="no_resi"
-              name="no_resi" 
-              class="form-control" 
-              placeholder="Masukkan Nomor Resi">
+<div class="card-header text-white">
+<h2 class="mb-0">Tracking Pengiriman</h2>
+</div>
 
-            <button 
-              class="btn btn-success" 
-              >
-              <i class="bi bi-search"></i> Lacak
-            </button>
+<div class="card-body">
 
-          </div>
-</form>
-          <div id="tracking-result" class="tracking-result mt-4"></div>
+<div class="row">
 
-        </div>
+<div class="col-md-6">
+<p><strong>Nomor Resi</strong><br>{{ $shipment->no_resi }}</p>
+<p><strong>Pengirim</strong><br>{{ $shipment->pengirim }}</p>
+</div>
 
-      </div>
+<div class="col-md-6">
+<p><strong>Penerima</strong><br>{{ $shipment->penerima }}</p>
+<p><strong>Tujuan</strong><br>{{ $shipment->tujuan }}</p>
+</div>
 
-    </div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card shadow">
+
+<div class="card-header">
+<h2 class="mb-0">Status Pengiriman</h2>
+</div>
+
+<div class="card-body">
+
+<div class="tracking-timeline">
+
+@foreach($shipment->trackings as $track)
+
+<div class="tracking-item">
+
+<div class="tracking-date">
+{{ $track->created_at->format('d M Y H:i') ?? '-'}}
+</div>
+
+<div class="tracking-content">
+
+<strong>{{ $track->status }}</strong>
+
+<br>
+
+<span class="text-muted">
+{{ $track->lokasi }}
+</span>
+
+</div>
+
+</div>
+
+@endforeach
+
+</div>
+
+</div>
+
+</div>
+
+@else
+
+<div class="alert alert-danger text-center">
+Nomor resi tidak ditemukan
+</div>
+
+@endif
+
+</div>
+
+
 
   </div>
 

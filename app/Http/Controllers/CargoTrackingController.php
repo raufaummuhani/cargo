@@ -82,6 +82,8 @@ public function update(Request $request, CargoTracking $cargoTracking)
         ->route('cargo_tracking.index', $cargoTracking->cargo_id)
         ->with('success','Tracking berhasil diperbarui');
 }
+
+
     public function destroy(CargoTracking $cargoTracking)
     {
         $cargoTracking->delete();

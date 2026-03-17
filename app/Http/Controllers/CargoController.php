@@ -3,15 +3,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Cargo;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\CargoTracking;
 use App\Models\Driver;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 class CargoController extends Controller
 {
-    public function index()
-    {
+    public function index(){
+    
             $user = Auth::user();
 
      if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
@@ -81,7 +81,14 @@ class CargoController extends Controller
     {
         return view('cargo.show', compact('cargo'));
     }
+public function cek(Request $request)
+{
+    $shipment = Cargo::where('no_resi',$request->no_resi)
+                ->with('trackings')
+                ->first();
 
+    return view('tracking_result', compact('shipment'));
+}
     public function update(Request $request, Cargo $cargo)
     {
         $cargo->update($request->only([
