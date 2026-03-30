@@ -8,7 +8,6 @@ use App\Http\Controllers\CargoController;
 use App\Http\Controllers\CargoTrackingController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\VehicleController;
-
 use App\Http\Controllers\MitraController;
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +38,9 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('mitra', MitraController::class);
+
 Route::post('/tracking', [CargoController::class,'cek'])->name('tracking.cek');
 Route::get('/cek-role', function () {
     return auth()->user()->getRoleNames();
@@ -138,7 +140,10 @@ Route::get('user', [UserController::class, 'index'])->name('user.index');
     });
     
 Route::view('/b2b', 'join.b2b');
-Route::view('/kemitraan', 'join.kemitraan');
-Route::view('/cek-kemitraan', 'join.cek_kemitraan');
+Route::get('/kemitraan', [MitraController::class, 'kemitraanPage'])->name('kemitraan.page');
+Route::post('/kemitraan', [MitraController::class, 'kemitraanStore'])->name('kemitraan.store');
+
+Route::get('/cek-kemitraan', [MitraController::class, 'cekKemitraanPage'])->name('cek.kemitraan.page');
+Route::post('/cek-kemitraan', [MitraController::class, 'cekKemitraanStore'])->name('cek.kemitraan.store');
 
 require __DIR__.'/auth.php';

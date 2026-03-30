@@ -62,7 +62,7 @@
            style="padding:5px 10px;background:#28a745;color:#fff;text-decoration:none">
             📍 Tracking
         </a>
-         <form action="{{ route('driver.cargo.destroy', $it) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
+         <form action="{{ route('driver.destroy', $it) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm">Hapus</button>
@@ -76,7 +76,7 @@
            style="padding:5px 10px;background:#28a745;color:#fff;text-decoration:none">
             📍 Tracking
         </a>
-         <form action="{{ route('driver.cargo.destroy', $it) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
+         <form action="{{ route('driver.destroy', $it) }}" method="POST" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm">Hapus</button>

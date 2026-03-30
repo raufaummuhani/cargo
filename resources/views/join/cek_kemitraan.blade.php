@@ -365,7 +365,7 @@
             'Accept'       : 'application/json',
             'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').content,
           },
-          body: JSON.stringify({ query }),
+          body: JSON.stringify({ kontak: query }),
         });
 
         const data = await response.json();

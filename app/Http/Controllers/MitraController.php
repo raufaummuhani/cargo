@@ -114,7 +114,7 @@ class MitraController extends Controller
      */
     public function kemitraanPage()
     {
-        return view('kemitraan');
+        return view('join.kemitraan');
     }
 
     /**
@@ -144,4 +144,36 @@ class MitraController extends Controller
             'message' => 'Pengajuan kemitraan berhasil dikirim!',
         ]);
     }
+    /**
+     * Tampilkan halaman cek status kemitraan
+     */
+    public function cekKemitraanPage()
+    {
+        return view('join.cek_kemitraan');
+    }
+
+public function cekKemitraanStore(Request $request)
+{
+    $request->validate([
+        'kontak' => 'required|string|max:150',
+    ]);
+
+    $kontak = trim($request->kontak);
+
+    $mitra = Mitra::where('email', $kontak)
+        ->orWhere('whatsapp', $kontak)
+        ->first();
+
+    if (!$mitra) {
+        return response()->json(['found' => false], 404);
+    }
+
+    return response()->json([
+        'found'      => true,
+        'nama_mitra' => $mitra->nama_mitra,
+        'nama_pic'   => $mitra->nama_pic,
+        'status'     => $mitra->status,
+        'created_at' => $mitra->created_at->format('d M Y'),
+    ]);
+}
 }
