@@ -89,4 +89,32 @@ public function update(Request $request, CargoTracking $cargoTracking)
         $cargoTracking->delete();
         return back()->with('success','Tracking dihapus');
     }
+    public function tracking(Request $request)
+{
+    $tracking = null;
+
+    if ($request->resi) {
+        $cargo = Cargo::where('no_resi', $request->resi)->first();
+
+        if ($cargo) {
+            $tracking = $cargo->trackings()->latest()->first();
+        }
+    }
+
+    return view('cargo_tracking.polyline', compact('tracking'));
+}
+public function api($resi)
+{
+    $cargo = Cargo::where('no_resi', $resi)->first();
+
+    if (!$cargo) return null;
+
+    return $cargo->trackings()->latest()->first();
+}
+public function multiTracking()
+{
+    $shipments = Cargo::with('trackings')->get();
+
+    return view('cargo_tracking.multi', compact('shipments'));
+}
 }

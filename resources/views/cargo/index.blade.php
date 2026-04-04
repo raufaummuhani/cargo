@@ -15,6 +15,8 @@
     @if(auth()->user()->hasRole('mitra'))
     <a href="{{ route('mitra.cargo.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
     @endif
+      <a href="{{ route('tracking.history') }}" class="btn btn-primary mb-3">Cari Tracking</a>
+       <a href="{{ route('multi.tracking') }}" class="btn btn-primary mb-3">Multi Tracking</a>
 <div class="table-responsive" style="max-height:400px; overflow-y:auto">
     <table class="table table-bordered">
 
@@ -56,7 +58,7 @@
 
 @role('super-admin')
  <a href="{{ route('cargo.edit', $it) }}" class="btn btn-warning btn-sm">Edit</a>
-                     <a href="{{ route('surat-jalan.show', $it) }}" class="btn btn-info btn-sm">Detail</a>
+          
 
  <a href="{{ route('cargo_tracking.index', $it->id) }}"
            style="padding:5px 10px;background:#28a745;color:#fff;text-decoration:none">
@@ -70,7 +72,7 @@
 @endrole
 @role('admin')
  <a href="{{ route('mitra.cargo.edit', $it) }}" class="btn btn-warning btn-sm">Edit</a>
-                     <a href="{{ route('surat-jalan.show', $it) }}" class="btn btn-info btn-sm">Detail</a>
+                     <a href="{{ route('surat-jalan.show', $it) }}" class="btn btn-info btn-sm">Surat Jalan</a>
 
  <a href="{{ route('mitra.cargo_tracking.index', $it->id) }}"
            style="padding:5px 10px;background:#28a745;color:#fff;text-decoration:none">
@@ -84,7 +86,7 @@
 @endrole
 @role('mitra')
  <a href="{{ route('mitra.cargo.edit', $it) }}" class="btn btn-warning btn-sm">Edit</a>
-                     <a href="{{ route('surat-jalan.show', $it) }}" class="btn btn-info btn-sm">Detail</a>
+                    <a href="{{ route('surat-jalan.show', $it) }}" class="btn btn-info btn-sm">Surat Jalan</a>
 
  <a href="{{ route('mitra.cargo_tracking.index', $it->id) }}"
            style="padding:5px 10px;background:#28a745;color:#fff;text-decoration:none">
@@ -96,11 +98,12 @@
                         <button class="btn btn-danger btn-sm">Hapus</button>
                     </form>
 @endrole
-
+@role('driver')
  <a href="{{ route('cargo_tracking.index', $it->id) }}"
            style="padding:5px 10px;background:#28a745;color:#fff;text-decoration:none">
             📍 Tracking
         </a>
+        @endrole
                                         
                 </td>
             </tr>

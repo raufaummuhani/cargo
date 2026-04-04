@@ -110,6 +110,8 @@ Route::middleware('auth','role:super-admin')->group(function () {
 Route::post('users/{user}/reset-password',
     [UserController::class,'resetPassword']
 )->name('admin.users.reset-password');
+Route::get('/multi-tracking', [CargoTrackingController::class, 'multiTracking'])
+    ->name('multi.tracking');
    Route::put('/user/{user}/make-admin', [UserController::class, 'makeAdmin'])
         ->name('user.makeAdmin');
 Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -119,7 +121,8 @@ Route::get('user', [UserController::class, 'index'])->name('user.index');
       Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
- 
+ Route::get('/tracking', [CargoTrackingController::class, 'tracking'])->name('tracking.history');
+Route::get('/api/tracking/{resi}', [CargoTrackingController::class, 'api']);
     Route::resource('cargo', CargoController::class);
        Route::put('/user/{id}/make-admin', [UserController::class, 'makeAdmin'])->name('user.makeAdmin');
        Route::put('/user/{id}/make-mitra', [UserController::class, 'makeMitra'])->name('user.makeMitra');

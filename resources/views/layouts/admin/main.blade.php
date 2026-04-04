@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>KPI</title>
+    <title>Aplikasi Monitoring Cargo</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset("assets/dashboard/bootstrap-4.3.1-dist/css/bootstrap.min.css") }}">
