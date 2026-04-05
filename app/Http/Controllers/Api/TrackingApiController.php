@@ -25,6 +25,7 @@ class TrackingApiController extends Controller
             'lat' => $last->lat ?? null,
             'lng' => $last->lng ?? null,
             'status' => $last->status ?? 'No Data',
+              'lokasi' => $last->lokasi ?? 'No Data',
             'time' => $last->created_at ?? null,
         ];
     });
