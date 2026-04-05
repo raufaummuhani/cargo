@@ -11,7 +11,7 @@
 <div style="position:absolute;top:2px;left:20px;background:#fff;padding:10px;border-radius:8px;">
     <b>Status</b><br>
     🟢 Sampai<br>
-    🔵 Proses<br>
+    🔵 Dikirim<br>
     🟠 Pending<br>
     🔴 Batal
 </div>
@@ -102,6 +102,7 @@
                             .bindPopup(`
                                 <b>Resi:</b> ${item.resi}<br>
                                 <b>Status:</b> ${item.status}<br>
+                                <b>Lokasi:</b> ${item.lokasi ?? '-'}<br>
                                 <b>Waktu:</b> ${item.time ?? '-'}
                             `);
                     }
