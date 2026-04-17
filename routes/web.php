@@ -9,6 +9,8 @@ use App\Http\Controllers\CargoTrackingController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\MitraController;
+
+use App\Http\Controllers\LaporanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,7 +57,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware(['auth','role:mitra'])->prefix('mitra')->group(function () {
 
-    Route::get('/cargo', [CargoController::class, 'index'])
+    Route::get('/mitra/cargo', [CargoController::class, 'index'])
         ->name('mitra.cargo.index');
             Route::get('/cargo/edit', [CargoController::class, 'edit'])
         ->name('mitra.cargo.edit');
@@ -132,7 +134,10 @@ Route::get('/api/tracking/{resi}', [CargoTrackingController::class, 'api']);
   Route::put('/users/{user}/reset-password',
     [UserController::class, 'resetPassword'])->name('user.resetPassword');
      Route::get('/user/{id}/reset', [UserController::class, 'reset'])->name('user.reset');
-     
+  Route::get('/laporan/harian', [LaporanController::class, 'harian'])->name('laporan.harian');
+Route::get('/laporan/bulanan', [LaporanController::class, 'bulanan'])->name('laporan.bulanan');   
+Route::get('/laporan/tujuan', [LaporanController::class, 'tujuan'])
+    ->name('laporan.tujuan');
    
 });
     Route::middleware('auth','role:super-admin|admin|driver')->group(function () {

@@ -21,7 +21,15 @@
                      <li class="active"><a class="nav-link" href="{{ route('mitra.index') }}"><i class="far fa-square"></i>
                     <span>Mitra</span></a></li>                                        
                     <li class="menu-header"><a class="nav-link" href="{{ route('user.index') }}">Admin</a></li>
-   
+         <li class="menu-header" >Laporan</li>
+                       <li class="active"><a class="nav-link" href="{{ route('laporan.harian') }}"><i class="far fa-square"></i>
+                    <span>Laporan Harian</span></a></li>
+                      
+                          <li class="active"><a class="nav-link" href="{{ route('laporan.bulanan') }}"><i class="far fa-square"></i>
+                    <span>Laporan Bulanan</span></a></li>
+
+                          <li class="active"><a class="nav-link" href="{{ route('laporan.tujuan') }}"><i class="far fa-square"></i>
+                    <span>Laporan Tujuan</span></a></li>
           
             @endrole
             @role('admin')

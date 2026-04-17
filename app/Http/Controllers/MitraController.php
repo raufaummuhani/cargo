@@ -20,7 +20,9 @@ class MitraController extends Controller
         $mitras = Mitra::with('user')->paginate(10);
         return view('mitra.index', compact('mitras'));
     }
-
+  public function show()
+    {
+    }
     /**
      * Form tambah mitra (admin)
      */
